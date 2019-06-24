@@ -5,5 +5,6 @@ module.exports.execute = async (bot, msg, args) => {
 }
 
 module.exports.info = {
-    name: 'ping'
+    name: 'ping',
+    aliases: ['lag', 'test']
 }
