@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./bot.config.json'); // Load the config file
 const fs = require('fs');
+const path = require('path')
 const bot = new  Discord.Client();
 bot.commands = new Discord.Collection;
 
@@ -8,22 +9,19 @@ bot.commands = new Discord.Collection;
 fs.readdir("./commands/", (err, files) =>{
     if(err) console.err(err);
   
-    let jsfiles = files.filter(f => f.split(".").pop() === "js");
-    if(jsfiles.length <=0){
+    let jsfiles = files.filter(file => path.extname(file) === '.js');
+    if(jsfiles.length <= 0){
       console.log("No commands to load!");
       return;
     }
   
     console.log(`loading ${jsfiles.length} command(s)!`);
   
-    jsfiles.forEach(f => {
-      let props = require(`./commands/${f}`);
-      bot.commands.set(props.info.name, props);
-      if(props.info.aliases) {
-          props.info.aliases.forEach(alias => {
-            bot.commands.set(alias, props);
-          });
-      }
+    jsfiles.forEach(file => {
+      let command = require(`./commands/${file}`);
+      command.info.aliases.forEach(alias => {
+        bot.commands.set(alias, command)
+      });
     });
   });
 
