@@ -1,9 +1,10 @@
-const Discord = module.require('discord.js');
+const Discord = require('discord.js');
 
-module.exports.execute = async (bot, msg, args) => {
-    await msg.reply(`Pong! API response time: ${bot.ping}ms`);
+exports.execute = async (bot, msg, args) => {
+    const m = await msg.channel.send("Ping?")
+    await m.edit(`Pong! Bot response time: ${m.createdAt - msg.createdAt}ms API response time: ${bot.ping}ms`);
 }
 
-module.exports.info = {
+exports.info = {
     aliases: ['ping', 'lag', 'test']
-}
+}   

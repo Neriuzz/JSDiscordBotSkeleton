@@ -1,13 +1,13 @@
 const Discord = require('discord.js');
-const config = require('./bot.config.json'); // Load the config file
+const config = require('./bot.config'); // Load the config file
 const fs = require('fs');
 const path = require('path')
 const bot = new  Discord.Client();
 bot.commands = new Discord.Collection;
 
 // Load all the commands and map them
-fs.readdir("./commands/", (err, files) =>{
-    if(err) console.err(err);
+fs.readdir("./commands", (err, files) => {
+    if(err) console.error(err);
   
     let jsfiles = files.filter(file => path.extname(file) === '.js');
     if(jsfiles.length <= 0){
